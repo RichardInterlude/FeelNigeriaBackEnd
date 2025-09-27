@@ -51,47 +51,5 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({"error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
 
-class UserDashboardView(APIView):
-    def get(self,request,id):
-        try:
-            # verify if the user is authenticated
-            user = request.user
-            if not user.is_authenticated:
-                return Response(
-                    {"error": "Authentication required"},
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
-            # Get the profile and listing based on id
-            profile = get_object_or_404(Profile,user=user)
-            listing = get_object_or_404(Listing,id=id)
-
-            # This is the common field between buyer, seller and user
-            data = {"email":user.email,
-                        "full_name":profile.full_name,
-                        "profile_pix":profile.profile_pix.url,
-                        "role":profile.role,
-                        }
-            # this is to get the messages of the buyer or the seller
-            buyer_inquiry = Inquiry.objects.filter(
-                    listing__seller=profile,
-                    listing=listing
-                )
-            seller_inquiry = Inquiry.objects.filter(
-                    sender=listing.seller,
-                     listing=listing
-            )
-
-            # this is to assign what message to another
-            if buyer_inquiry.exists():
-                data['buyer_inquiry'] = InquirySerializers(buyer_inquiry,many=True).data
-
-            if seller_inquiry.exists():
-                data['seller_inquiry'] = InquirySerializers(seller_inquiry,many=True).data
-
-            return Response(data, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({"message":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-
 
 

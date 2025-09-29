@@ -13,6 +13,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=50, choices = GENDER_CHOICE)
     profile_pix = models.ImageField(upload_to='user_pix', default='https://thumbs.dreamstime.com/b/user-profile-icon-vector-avatar-person-picture-portrait-symbol-neutral-gender-silhouette-circle-button-photo-blank-272664038.jpg')
     terms = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.full_name

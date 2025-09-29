@@ -1,23 +1,50 @@
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-from . models import *
-from . serializers import *
+from rest_framework import status,generics
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login,logout,authenticate
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from . models import *
+from . serializers import *
+from .serializers import RegistrationSerializer
+from .utils import sendMail
 
 
 class RegistrationView(APIView):
-    def post(self,request):
+    def post(self, request):
         try:
-            serializers = RegistrationSerializer(data=request.data)
-            if serializers.is_valid():
-                serializers.save()
-                return Response(serializers.data, status=status.HTTP_200_OK)
-            return Response(serializers.errors, status = status.HTTP_400_BAD_REQUEST)
+            serializer = RegistrationSerializer(data=request.data)
+            if serializer.is_valid():
+                # Save the user
+                user = serializer.save()
+
+                # Generate token for email verification
+                token = RefreshToken.for_user(user).access_token
+
+                # Build activation URL
+                current_site = get_current_site(request).domain
+                relative_link = reverse('verify')  # <- make sure you have a urlpattern named 'verify'
+                abs_url = f"http://{current_site}{relative_link}?token={str(token)}"
+
+                # Send activation email
+                sendMail(
+                    to_email=user.email,
+                    username=user.username,
+                    activation_link=abs_url
+                )
+
+                return Response(
+                    {"message": "Registration successful. Please check your email to verify your account."},
+                    status=status.HTTP_201_CREATED
+                )
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         except Exception as e:
-            return Response({"error":str(e)})
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def put(self,request,id):
         try:
             profile = get_object_or_404(Profile, id=id)
@@ -29,6 +56,11 @@ class RegistrationView(APIView):
 
         except Exception as e:
             return Response({"Error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class VerifyRegistrationView(generics.GenericAPIView):
+    def get(self):
+        pass
+
 
 class LoginView(APIView):
     def post(self,request):
@@ -50,6 +82,5 @@ class LogoutView(APIView):
             return Response({'message':"Logout was successful"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
-
 
 

@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSerializer()
-        field = ['full_name','phone','gender','profile_pix','role']
+        field = ['full_name','phone','gender','profile_pix']
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -27,7 +27,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['full_name','phone','gender','profile_pix','email','username','password','password1','role']
+        fields = ['full_name','phone','gender','profile_pix','email','username','password','password1']
     def validate(self,data):
         if data['password'] != data['password1']:
             raise serializers.ValidationError('password does not match')
@@ -46,9 +46,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
             phone = validated_data['phone'],
             gender= validated_data['gender'],
             profile_pix = validated_data.get('profile_pix'),
-            role = validated_data['role']
         )
-        sendMail(email=email)
+        return user
 
 
 

@@ -1,15 +1,20 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status,generics
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.sites.shortcuts import get_current_site
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+
+from django.conf.global_settings import SECRET_KEY
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+import  jwt
+
 from . models import *
 from . serializers import *
 from .serializers import RegistrationSerializer
 from .utils import sendMail
+
 
 
 class RegistrationView(APIView):
@@ -58,9 +63,23 @@ class RegistrationView(APIView):
             return Response({"Error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class VerifyRegistrationView(generics.GenericAPIView):
-    def get(self):
-        pass
+    def get(self,request):
+        token = request.GET.get('token')
+        try:
+            access_token = AccessToken(token)
+            user_id = access_token['user_id']
 
+            user = get_object_or_404(User,id=user_id)
+
+            profile = get_object_or_404(Profile,user=user)
+
+            if not profile.is_verified:
+                profile.is_verified = True
+                profile.save()
+            return Response({"Message":"Email Verification successful"}, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({'Error':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class LoginView(APIView):
     def post(self,request):

@@ -27,13 +27,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['full_name','phone','gender','profile_pix','email','username','password','password1']
+        fields = ['full_name','phone','gender','profile_pix','email','username','password','password1','is_verified','agreed_to_terms']
+
     def validate(self,data):
         if data['password'] != data['password1']:
             raise serializers.ValidationError('password does not match')
         return data
     
+    def validate(self, attrs):
+        if not attrs.get("agreed_to_terms"):
+            raise serializers.ValidationError(
+                {"agree to terms": "You must agree to the terms and conditions to register."}
+            )
+        return attrs
+    
     def create(self, validated_data: Dict[str, Any]):
+        validated_data.pop("agreed_to_terms", None)
+
         username = validated_data.pop('username')
         email = validated_data.pop('email')
         password = validated_data.pop('password')
@@ -46,6 +56,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             phone = validated_data['phone'],
             gender= validated_data['gender'],
             profile_pix = validated_data.get('profile_pix'),
+            is_verified = False
         )
         return user
 

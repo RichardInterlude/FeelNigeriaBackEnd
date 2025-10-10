@@ -1,4 +1,4 @@
-# 🇳🇬 Feel Nigeria Initiative
+# Feel Nigeria Initiative
 
 A web application built with **Django** and **Python** for the *Feel Nigeria Initiative* project.  
 This backend provides a foundation for managing content, users, and communications related to the initiative.

@@ -34,7 +34,7 @@ pip install -r requirements.txt
 ```
 
 ### 4 Create your .env file
-Create a .env file in your project folder and out this into it
+Create a .env file in your project folder and put this into it
 
 DJANGO_SECRET_KEY=your_secret_key_here
 EMAIL_HOST_USER=your_email_here

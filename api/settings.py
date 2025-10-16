@@ -19,6 +19,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'feelnigeriabackend-343v.onrender.com',
+    'https://feelnigeriabackend-343v.onrender.com',
     'www.feelnigeriabackend-343v.onrender.com',
     'localhost',
     '127.0.0.1',

@@ -17,7 +17,12 @@ SECRET_KEY =str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['feelnigeriabackend-343v.onrender.com','http://feelnigeriabackend-343v.onrender.com','https://feelnigeriabackend-343v.onrender.com']
+ALLOWED_HOSTS = [
+    'feelnigeriabackend-343v.onrender.com',
+    'www.feelnigeriabackend-343v.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition

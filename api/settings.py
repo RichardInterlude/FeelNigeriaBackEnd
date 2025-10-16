@@ -81,6 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
     )
 
 }
@@ -137,3 +138,4 @@ EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER')) # SMTP server username
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))  # SMTP server password
 EMAIL_PORT = 465  # SMTP server port (587 for TLS, 465 for SSL)
 EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False

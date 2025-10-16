@@ -19,14 +19,14 @@ class Application(models.Model):
 
     # Step 2: Travel & Visa Information
     passport_number = models.CharField(max_length=50)
-    passport_expiration = models.DateField()
-    visa_history = models.BooleanField()
-    travel_history = models.TextField()
+    passport_expiration = models.DateField(null=True, blank=True)
+    visa_history = models.BooleanField(null=True, blank=True)
+    travel_history = models.TextField(null=True, blank=True)
 
     # Step 3: Background & Motivation
-    motivation = models.TextField()
+    motivation = models.TextField(null=True, blank=True)
     profession = models.CharField(max_length=200)
-    hobbies = models.TextField()
+    hobbies = models.TextField(null=True, blank=True)
 
     # Step 4: Media & Social Profiles
     instagram = models.URLField(blank=True, null=True)

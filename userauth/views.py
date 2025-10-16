@@ -14,6 +14,7 @@ from . models import *
 from . serializers import *
 from .serializers import RegistrationSerializer
 from .utils import sendMail
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -103,3 +104,31 @@ class LogoutView(APIView):
             return Response({"error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
 
 
+class DashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            profile = get_object_or_404(Profile,user = request.user)
+            application = getattr(profile, 'application', None)
+            
+
+            data = {
+                "username": profile.full_name,
+                "application_status": getattr(application, 'status', "No application found"),
+                "social_links": {
+                    "twitter": "https://twitter.com/feelnigeria",
+                    "instagram": "https://instagram.com/feelnigeria",
+                    "facebook": "https://facebook.com/feelnigeria",
+                },
+                "faqs": [
+                    "How long does review take?",
+                    "What documents are required?",
+                    "Can I edit my application after submission?",
+                ]
+            }
+
+            return Response(data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

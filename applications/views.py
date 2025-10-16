@@ -6,15 +6,24 @@ from django.shortcuts import get_object_or_404
 
 from .models import Application
 from .serializers import *
+from rest_framework.permissions import IsAuthenticated
+
 
 
 class Step1View(APIView):
+
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         serializer = Step1Serializer(data=request.data)
-        if serializer.is_valid():
-            application = serializer.save(user=request.user)  # create new application
-            return Response({"id": application.id}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            if serializer.is_valid():
+                application = serializer.save(user=request.user)  # create new application
+                return Response({"id": application.id}, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"Error":str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class Step2View(APIView):

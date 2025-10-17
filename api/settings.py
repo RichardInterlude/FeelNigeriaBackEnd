@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY =str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["https://feelnigeriabackend-343v.onrender.com","http://feelnigeriabackend-343v.onrender.com","feelnigeriabackend-343v.onrender.com"]
 

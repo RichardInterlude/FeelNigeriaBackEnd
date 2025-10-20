@@ -57,8 +57,8 @@ class RegistrationView(APIView):
             serializers = RegistrationSerializer(profile,data=request.data,partial=True)
             if serializers.is_valid():
                 serializers.save()
-                return Response(serializers.dat,status=status.HTTP_202_ACCEPTED)
-            return Response(serializers.error,status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializers.data,status=status.HTTP_202_ACCEPTED)
+            return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             return Response({"Error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

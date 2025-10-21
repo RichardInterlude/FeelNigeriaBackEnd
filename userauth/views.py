@@ -13,7 +13,7 @@ import  jwt
 from . models import *
 from . serializers import *
 from .serializers import RegistrationSerializer
-from .utils import sendMail
+from .utils import sendMail, send_mail
 from rest_framework.permissions import IsAuthenticated
 
 

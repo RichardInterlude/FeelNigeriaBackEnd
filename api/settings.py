@@ -138,9 +138,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'image')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = env('EMAIL_HOST', default='smtp-relay.brevo.com')
-EMAIL_PORT = env.int('EMAIL_PORT', default=587)
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'FeelNigeria@gmail.com'
+# Brevo (Sendinblue) API key
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+# Verified sender email for Brevo
+BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL", "your-verified-email@example.com")
+BREVO_SENDER_NAME = os.getenv("BREVO_SENDER_NAME", "FeelNigeria")

@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 import  jwt
+from django.conf import settings
 
 from . models import *
 from . serializers import *
@@ -50,7 +51,7 @@ class RegistrationView(APIView):
                 sendMail(
                     subject="Verify your email",
                     html_content=email_html,
-                    sender_email="noreply@yourdomain.com",
+                    sender_email=settings.BREVO_SENDER_EMAIL,
                     recipient_email=user.email  # ✅ matches utils.py
                 )
 

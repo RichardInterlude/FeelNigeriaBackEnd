@@ -22,7 +22,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["https://feelnigeriabackend-1.onrender.com","http://feelnigeriabackend-1.onrender.com","feelnigeriabackend-1.onrender.com",'127.0.0.1','localhost']
+ALLOWED_HOSTS = ["https://feelnigeriabackend-production.up.railway.app","http://feelnigeriabackend-production.up.railway.app","feelnigeriabackend-production.up.railway.app",'127.0.0.1','localhost']
 
 
 # Application definition

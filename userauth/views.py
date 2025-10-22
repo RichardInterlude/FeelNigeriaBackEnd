@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.conf.global_settings import SECRET_KEY
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 import  jwt
@@ -13,7 +14,7 @@ import  jwt
 from . models import *
 from . serializers import *
 from .serializers import RegistrationSerializer
-from .utils import sendMail, send_mail
+from .utils import sendMail
 from rest_framework.permissions import IsAuthenticated
 
 

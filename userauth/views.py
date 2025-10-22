@@ -32,14 +32,26 @@ class RegistrationView(APIView):
 
                 # Build activation URL
                 current_site = get_current_site(request).domain
-                relative_link = reverse('verify')  # <- make sure you have a urlpattern named 'verify'
+                relative_link = reverse('verify')  # Ensure you have a URL pattern named 'verify'
                 abs_url = f"http://{current_site}{relative_link}?token={str(token)}"
+
+                # Create HTML email content
+                email_html = f"""
+                <html>
+                    <body>
+                        <h2>Welcome {user.username}!</h2>
+                        <p>Thank you for registering. Please verify your email by clicking the link below:</p>
+                        <a href="{abs_url}" style="color: blue;">Verify your email</a>
+                    </body>
+                </html>
+                """
 
                 # Send activation email
                 sendMail(
-                    to_email=user.email,
-                    username=user.username,
-                    activation_link=abs_url
+                    subject="Verify your email",
+                    html_content=email_html,
+                    sender_email="noreply@yourdomain.com",
+                    recipient_email=user.email  # ✅ matches utils.py
                 )
 
                 return Response(
@@ -51,7 +63,7 @@ class RegistrationView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
     def put(self,request,id):
         try:
             profile = get_object_or_404(Profile, id=id)

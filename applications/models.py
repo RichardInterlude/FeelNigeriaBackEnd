@@ -20,7 +20,7 @@ class Application(models.Model):
     gender = models.CharField(max_length=10,choices=GENDER_CHOICE)
     phone = models.CharField(max_length=20)
     has_bvn = models.CharField(max_length=50, choices=BVN_CHOICE,null=True,blank=True)
-    bvn = models.TextField(null=True,lank=True)
+    bvn = models.TextField(null=True,blank=True)
 
     # Step 2: Travel & Visa Information
     passport_number = models.CharField(max_length=50)

@@ -54,17 +54,29 @@ class Step4View(APIView):
 
 
 class BVNView(APIView):
-    def put(self,request, id):
+    def put(self, request, id):
         try:
-            serializers = BVNSerializers(data=request.data)
-            if Application.has_bvn == True:
-                if serializers.is_valid():
-                    serializers.save(user=request.user,id=id)
-                    return Response({serializers.errors},status=status.HTTP_400_BAD_REQUEST)
-                return Response(serializers.errors,status=status.http)
-            return Response({'Message':'in order to fully register you need a bvn'})
+            # Get the user's application
+            app = Application.objects.filter(id=id, user=request.user).first()
+            if not app:
+                return Response({'error': 'Application not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            # Check if user already has BVN
+            if app.has_bvn:
+                return Response({'message': 'You already have a BVN linked to your account'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # If user doesn’t have BVN, validate and save new BVN
+            serializer = BVNSerializers(app, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                app.has_bvn = True
+                app.save()
+                return Response({'message': 'BVN added successfully'}, status=status.HTTP_200_OK)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         except Exception as e:
-            return Response({'Error':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ReviewView(APIView):

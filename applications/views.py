@@ -11,12 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class Step1View(APIView):
-
     permission_classes = [IsAuthenticated]
-
     def post(self, request):
-        serializer = Step1Serializer(data=request.data)
-        
+        serializer = Step1Serializer(data=request.data)  
         try:
             if serializer.is_valid():
                 application = serializer.save(user=request.user)  # create new application
@@ -54,6 +51,21 @@ class Step4View(APIView):
             serializer.save()
             return Response({"message": "Step 4 saved"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BVNView(APIView):
+    def post(self,request, id):
+        try:
+            serializers = BVNSerializers(data=request.data)
+            if Application.has_bvn == 'Y':
+                if serializers.is_valid():
+                    serializers.save(user=request.user,id=id)
+                    return Response({serializers.errors},status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializers.errors,status=status.http)
+            else:
+                return Response({'Message':'in order to fully register you need a bvn'})
+        except Exception as e:
+            return Response({'Error':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ReviewView(APIView):

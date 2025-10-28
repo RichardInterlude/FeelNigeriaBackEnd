@@ -5,7 +5,7 @@ from . models import *
 class Step1Serializer(serializers.ModelSerializer):
     class Meta:
         model = Application
-        fields = ['nationality','country_of_residence','date_of_birth','gender','phone','passport_photo']
+        fields = ['nationality','country_of_residence','date_of_birth','gender','phone']
 
 class Step2Serializer(serializers.ModelSerializer):
     class Meta:
@@ -21,6 +21,11 @@ class Step4Serializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = ['instagram','tiktok','youtube','intro_video']
+
+class BVNSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = ['has_bvn','bvn']
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:

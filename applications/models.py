@@ -6,6 +6,10 @@ GENDER_CHOICE = (
     ('F','Female')
 )
 
+BVN_CHOICE = (
+    ('Y','Yes'),
+    ('N','No')
+)
 class Application(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -15,7 +19,8 @@ class Application(models.Model):
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=10,choices=GENDER_CHOICE)
     phone = models.CharField(max_length=20)
-    passport_photo = models.ImageField(upload_to="passport_photos/")
+    has_bvn = models.CharField(max_length=50, choices=BVN_CHOICE,null=True,blank=True)
+    bvn = models.TextField(null=True,lank=True)
 
     # Step 2: Travel & Visa Information
     passport_number = models.CharField(max_length=50)

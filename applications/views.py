@@ -54,7 +54,7 @@ class Step4View(APIView):
 
 
 class BVNView(APIView):
-    def post(self,request, id):
+    def put(self,request, id):
         try:
             serializers = BVNSerializers(data=request.data)
             if Application.has_bvn == 'Y':

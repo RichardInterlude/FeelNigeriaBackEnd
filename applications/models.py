@@ -6,10 +6,6 @@ GENDER_CHOICE = (
     ('F','Female')
 )
 
-BVN_CHOICE = (
-    ('Y','Yes'),
-    ('N','No')
-)
 class Application(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -19,7 +15,7 @@ class Application(models.Model):
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=10,choices=GENDER_CHOICE)
     phone = models.CharField(max_length=20)
-    has_bvn = models.CharField(max_length=50, choices=BVN_CHOICE,null=True,blank=True)
+    has_bvn = models.BooleanField(null=True,blank=True)
     bvn = models.TextField(null=True,blank=True)
 
     # Step 2: Travel & Visa Information

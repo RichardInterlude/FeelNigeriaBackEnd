@@ -57,13 +57,12 @@ class BVNView(APIView):
     def put(self,request, id):
         try:
             serializers = BVNSerializers(data=request.data)
-            if Application.has_bvn == 'Y':
+            if Application.has_bvn == True:
                 if serializers.is_valid():
                     serializers.save(user=request.user,id=id)
                     return Response({serializers.errors},status=status.HTTP_400_BAD_REQUEST)
                 return Response(serializers.errors,status=status.http)
-            else:
-                return Response({'Message':'in order to fully register you need a bvn'})
+            return Response({'Message':'in order to fully register you need a bvn'})
         except Exception as e:
             return Response({'Error':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

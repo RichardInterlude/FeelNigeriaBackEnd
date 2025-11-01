@@ -40,4 +40,4 @@ class Application(models.Model):
     submitted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - Application"
+        return f"{self.user} - Application"

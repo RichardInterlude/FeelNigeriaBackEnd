@@ -91,6 +91,11 @@ REST_FRAMEWORK = {
 
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://feelnigeriabackend-2.onrender.com",
+    # "https://your-frontend-name.vercel.app",
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 

@@ -93,7 +93,7 @@ REST_FRAMEWORK = {
 
 CSRF_TRUSTED_ORIGINS = [
     "https://feelnigeriabackend-2.onrender.com",
-    # "https://your-frontend-name.vercel.app",
+    "https://feelnigerialogin.vercel.app/",
 ]
 
 # Password validation

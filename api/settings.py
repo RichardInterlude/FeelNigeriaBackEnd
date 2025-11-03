@@ -51,6 +51,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+CORS_ALLOWED_ORIGINS = [
+   "https://feelnigerialogin.vercel.app/"
+]
+
 ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
@@ -90,6 +95,7 @@ REST_FRAMEWORK = {
     )
 
 }
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://feelnigeriabackend-2.onrender.com",

@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from . models import *
 from django.contrib.auth.models import User
-from . utils import sendMail
 
 from typing import Dict, Any
 
@@ -16,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSerializer()
-        field = ['full_name','phone','gender','profile_pix']
+        field = ['full_name','phone','nationality','preferred_destination']
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -27,7 +26,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['full_name','phone','gender','profile_pix','email','username','password','password1','is_verified','agreed_to_terms']
+        fields = ['full_name','phone','email','username','password','password1','is_verified','agreed_to_terms','nationality','preferred_destination']
 
     def validate(self,data):
         if data['password'] != data['password1']:
@@ -54,8 +53,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
             user = user,
             full_name = validated_data['full_name'],
             phone = validated_data['phone'],
-            gender= validated_data['gender'],
-            profile_pix = validated_data.get('profile_pix'),
+            nationality = validated_data['nationality'],
+            preferred_destination = validated_data['preferred_destination'],
+            # gender= validated_data['gender'],
+            # profile_pix = validated_data.get('profile_pix'),
             is_verified = False
         )
         return user

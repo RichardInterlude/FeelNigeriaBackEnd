@@ -5,4 +5,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/',include('userauth.urls')),
     path('api/apps/',include('applications.urls')),
+    path('api/card/',include('card.urls')),
+    path('api/webhook/',include('webhook.urls')),
 ]

@@ -36,8 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    # apps
     'userauth.apps.UserauthConfig',
     'applications.apps.ApplicationsConfig',
+    'card.apps.CardConfig',
+    'webhook.apps.WebhookConfig',
 ]
 
 MIDDLEWARE = [
@@ -52,9 +55,9 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [
-   "https://feelnigerialogin.vercel.app/"
-]
+# CORS_ALLOWED_ORIGINS = [
+#    "https://feelnigerialogin.vercel.app/"
+# ]
 
 ROOT_URLCONF = 'api.urls'
 
